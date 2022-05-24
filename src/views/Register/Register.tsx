@@ -2,6 +2,8 @@ import { useState } from "react";
 import { db } from "../../firebase/firebase-config.js";
 import { addDoc, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { toggleTrue } from "../../store/account/accountSlice";
 import "./Register.scss";
 
 const Register = () => {
@@ -11,6 +13,8 @@ const Register = () => {
   const [confirmPass, setConfirmPass] = useState("");
   const [formValid, setFormValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -33,6 +37,7 @@ const Register = () => {
             },
           });
 
+          dispatch(toggleTrue());
           navigate("/");
         } catch (e) {
           console.log(e);
