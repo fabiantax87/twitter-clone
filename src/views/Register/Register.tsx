@@ -1,9 +1,7 @@
-import { useState } from "react";
-import { db } from "../../firebase/firebase-config.js";
-import { addDoc, collection } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { registerWithEmailAndPassword, auth } from "../../firebase/firebase-config.js";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { toggleTrue } from "../../store/account/accountSlice";
 import "./Register.scss";
 
 const Register = () => {
@@ -11,60 +9,32 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
-  const [formValid, setFormValid] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const dispatch = useDispatch();
+  const [user, loading] = useAuthState(auth);
 
   const navigate = useNavigate();
 
-  const accountCollection = collection(db, "user");
-
-  const submitAccount = async (e: any) => {
+  const register = (e: any) => {
     e.preventDefault();
-
-    if (username !== "" || email !== "" || password !== "" || confirmPass !== "") {
-      if (password === confirmPass) {
-        let date = Date.now();
-
-        try {
-          await addDoc(accountCollection, {
-            dateCreated: date,
-            accountDetails: {
-              username: username,
-              email: email,
-              password: password,
-            },
-          });
-
-          dispatch(toggleTrue());
-          navigate("/");
-        } catch (e) {
-          console.log(e);
-        }
-      } else {
-        setFormValid(false);
-        setErrorMessage("Passwords do not match, try again.");
-      }
+    if (password === confirmPass) {
+      registerWithEmailAndPassword(username, email, password);
     } else {
-      setFormValid(false);
-      setErrorMessage("Not all fields have been filled, try again.");
+      alert("Passwords do not match, try again");
     }
   };
 
-  const ErrorMessage: any = (msg: string) => {
-    if (!formValid && errorMessage !== "") {
-      return <p className="error-msg">{msg}</p>;
-    } else {
+  useEffect(() => {
+    if (loading) {
       return;
     }
-  };
+    if (user) {
+      navigate("/");
+    }
+  }, [user, loading]);
 
   return (
     <div className="register-container">
       <h1>Register</h1>
-      {ErrorMessage(errorMessage)}
-      <form className="register-form" onSubmit={(e: any) => submitAccount(e)}>
+      <form className="register-form" onSubmit={(e: any) => register(e)}>
         <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
