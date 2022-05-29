@@ -13,12 +13,14 @@ const CreatePost = () => {
 
     const date = Date.now();
 
-    await addDoc(postsCollection, {
-      datePosted: date,
-      likes: 0,
-      message: message,
-      uid: auth.currentUser?.uid,
-    });
+    if (message !== "") {
+      await addDoc(postsCollection, {
+        datePosted: date,
+        likes: 0,
+        message: message,
+        uid: auth.currentUser?.uid,
+      });
+    }
 
     setMessage("");
   };

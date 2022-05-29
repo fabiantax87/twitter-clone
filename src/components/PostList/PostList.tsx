@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { db } from "../../firebase/firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import Post from "components/Post/Post";
+import "./PostList.scss";
 
 const PostList = () => {
   const [posts, setPosts] = useState<any[]>([]);
