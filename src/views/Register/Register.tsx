@@ -16,13 +16,6 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  // const handleImageChange = (e: any) => {
-  //   if (e.target.files[0]) {
-  //     console.log(e.target.files[0]);
-  //     setProfileImg(e.target.files[0]);
-  //   }
-  // };
-
   const register = async (e: any) => {
     e.preventDefault();
 
