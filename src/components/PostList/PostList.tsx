@@ -1,26 +1,14 @@
-import { useEffect, useState } from "react";
-import { db } from "../../firebase/firebase-config";
-import { collection, getDocs } from "firebase/firestore";
 import Post from "components/Post/Post";
 import "./PostList.scss";
 
-const PostList = () => {
-  const [posts, setPosts] = useState<any[]>([]);
+type postListProps = {
+  posts: any;
+};
 
-  const postsCollectionRef = collection(db, "posts");
-
-  const getPosts = async () => {
-    const data = await getDocs(postsCollectionRef);
-    setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  };
-
-  useEffect(() => {
-    getPosts();
-  }, []);
-
+const PostList = ({ posts }: postListProps) => {
   return (
     <div className="post-list">
-      {posts.map((post) => {
+      {posts.map((post: any) => {
         return <Post post={post} />;
       })}
     </div>

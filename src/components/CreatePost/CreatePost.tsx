@@ -3,7 +3,11 @@ import { db, auth } from "../../firebase/firebase-config";
 import { addDoc, collection } from "firebase/firestore";
 import "./CreatePost.scss";
 
-const CreatePost = () => {
+type createPostProps = {
+  getPosts: any;
+};
+
+const CreatePost = ({ getPosts }: createPostProps) => {
   const [message, setMessage] = useState("");
 
   const postsCollection = collection(db, "posts");
@@ -19,6 +23,8 @@ const CreatePost = () => {
         likes: 0,
         message: message,
         uid: auth.currentUser?.uid,
+      }).then(() => {
+        getPosts();
       });
     }
 

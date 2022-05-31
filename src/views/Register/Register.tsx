@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { registerWithEmailAndPassword, auth } from "../../firebase/firebase-config.js";
+import { registerWithEmailAndPassword, auth, signInWithGoogle, storage } from "../../firebase/firebase-config.js";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
+import { v4 } from "uuid";
 import "./Register.scss";
 
 const Register = () => {
@@ -9,17 +11,38 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+  const [profileImg, setProfileImg] = useState<any>(null);
   const [user, loading] = useAuthState(auth);
 
   const navigate = useNavigate();
 
-  const register = (e: any) => {
+  // const handleImageChange = (e: any) => {
+  //   if (e.target.files[0]) {
+  //     console.log(e.target.files[0]);
+  //     setProfileImg(e.target.files[0]);
+  //   }
+  // };
+
+  const register = async (e: any) => {
     e.preventDefault();
-    if (password === confirmPass) {
-      registerWithEmailAndPassword(username, email, password);
-    } else {
-      alert("Passwords do not match, try again");
-    }
+
+    const imgRef = ref(storage, `images/${profileImg.name + v4()}`);
+    await uploadBytes(imgRef, profileImg).then(() => {
+      getDownloadURL(imgRef)
+        .then((url) => {
+          if (password === confirmPass) {
+            registerWithEmailAndPassword(username, email, password, url);
+          } else {
+            alert("Passwords do not match, try again");
+          }
+        })
+        .catch((err) => {
+          console.error(err.message);
+        })
+        .catch((err) => {
+          console.error(err.message, "Error getting the image URL");
+        });
+    });
   };
 
   useEffect(() => {
@@ -39,7 +62,9 @@ const Register = () => {
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <input type="password" placeholder="Confirm password" value={confirmPass} onChange={(e) => setConfirmPass(e.target.value)} />
+        <input type="file" onChange={(e: any) => setProfileImg(e.target.files[0])} />
         <button type="submit">Create</button>
+        <button onClick={(e) => signInWithGoogle()}>Sign in with google</button>
       </form>
     </div>
   );
