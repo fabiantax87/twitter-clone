@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { logInWithEmailAndPassword, auth } from "../../firebase/firebase-config.js";
+import { logInWithEmailAndPassword, auth, signInWithGoogle } from "../../firebase/firebase-config.js";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./Login.scss";
 
@@ -32,6 +32,7 @@ const Login = () => {
         <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <button type="submit">Login</button>
+        <button onClick={(e) => signInWithGoogle()}>Sign in with Google</button>
       </form>
     </div>
   );

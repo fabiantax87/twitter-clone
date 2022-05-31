@@ -1,3 +1,25 @@
+:root {
+  --default-blue: #1d9bf0;
+  --default-hover-blue: #1a8cd8;
+
+  --default-grey: #8e99a1;
+}
+
+.btn-def {
+  color: white;
+  background-color: var(--default-blue);
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  transition: ease 0.2s;
+}
+.btn-def:hover {
+  cursor: pointer;
+  background-color: var(--default-hover-blue);
+}
+
 .App {
   text-align: center;
 }

@@ -1,40 +1,32 @@
-import { useSelector } from "react-redux";
-import { selectAccount } from "../../store/account/accountSlice";
-import { logout } from "../../firebase/firebase-config.js";
-import { useNavigate } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase/firebase-config.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { db } from "../../firebase/firebase-config";
+import { collection, getDocs } from "firebase/firestore";
+import CreatePost from "components/CreatePost/CreatePost";
+import Navigation from "components/Navigation/Navigation";
+import PostList from "components/PostList/PostList";
+import "./Home.scss";
 
 const Home = () => {
-  const [user] = useAuthState(auth);
+  const [posts, setPosts] = useState<any[]>([]);
 
-  const navigate = useNavigate();
+  const postsCollectionRef = collection(db, "posts");
 
-  const Test: any = () => {
-    const store = useSelector(selectAccount);
-    if (store) {
-      return <h1>It works!!!</h1>;
-    } else {
-      return;
-    }
-  };
-
-  const logUserOut = () => {
-    logout();
+  const getPosts = async () => {
+    const data = await getDocs(postsCollectionRef);
+    setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  }, [user]);
+    getPosts();
+  }, []);
 
   return (
-    <div>
-      <p>home</p>
-      <button onClick={(e) => logUserOut()}>Logout</button>
-      <Test />
+    <div className="home-container">
+      <Navigation />
+      <div className="content">
+        <CreatePost getPosts={getPosts} />
+        <PostList posts={posts} />
+      </div>
     </div>
   );
 };
