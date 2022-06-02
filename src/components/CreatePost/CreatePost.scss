@@ -1,0 +1,14 @@
+.create-post {
+  .create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+
+    input {
+      padding: 10px;
+      font-size: 18px;
+      font-weight: 400;
+    }
+  }
+}
