@@ -12,8 +12,9 @@ const Home = () => {
   const postsCollectionRef = collection(db, "posts");
 
   const getPosts = async () => {
-    const data = await getDocs(postsCollectionRef);
-    setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    await getDocs(postsCollectionRef).then((docs: any) => {
+      setPosts(docs.docs.map((doc: any) => ({ ...doc.data(), id: doc.id })));
+    });
   };
 
   useEffect(() => {
@@ -25,7 +26,9 @@ const Home = () => {
       <Navigation />
       <div className="content">
         <CreatePost getPosts={getPosts} />
-        <PostList posts={posts} />
+        <div className="post-list-home">
+          <PostList getPosts={getPosts} posts={posts} />
+        </div>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import Home from "./views/Home/Home";
 import Layout from "./views/Layout/Layout";
 import Login from "./views/Login/Login";
 import Register from "./views/Register/Register";
+import Profile from "./views/Profile/Profile";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="/profile/:id" element={<Profile />} />
         </Route>
       </Routes>
     </div>

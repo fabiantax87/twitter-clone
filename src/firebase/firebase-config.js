@@ -31,6 +31,9 @@ const signInWithGoogle = async () => {
         username: user.displayName,
         authProvider: "google",
         email: user.email,
+        profileImage: "https://firebasestorage.googleapis.com/v0/b/twitter-clone-c1e7a.appspot.com/o/images%2Fdefault-pfp.jfif?alt=media&token=025a79ce-67a6-4cff-8170-46a400c4ae0a",
+        followers: [],
+        following: [],
       });
     }
   } catch (err) {
@@ -59,6 +62,8 @@ const registerWithEmailAndPassword = async (name, email, password, imgUrl) => {
       email,
       dateCreated: date,
       profileImage: imgUrl,
+      followers: [],
+      following: [],
     });
   } catch (err) {
     console.error(err);

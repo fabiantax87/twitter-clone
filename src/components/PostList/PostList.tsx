@@ -3,13 +3,14 @@ import "./PostList.scss";
 
 type postListProps = {
   posts: any;
+  getPosts: any;
 };
 
-const PostList = ({ posts }: postListProps) => {
+const PostList = ({ posts, getPosts }: postListProps) => {
   return (
     <div className="post-list">
       {posts.map((post: any) => {
-        return <Post post={post} />;
+        return <Post getPosts={getPosts} key={post.id} post={post} />;
       })}
     </div>
   );

@@ -22,6 +22,9 @@ const Navigation = () => {
           <Link to="/">Home</Link>
         </li>
         <li>
+          <Link to={"/profile/" + auth.currentUser?.uid}>Profile</Link>
+        </li>
+        <li>
           <button onClick={(e) => logout()}>Logout</button>
         </li>
         <li></li>

@@ -3,20 +3,16 @@ import { createSlice } from "@reduxjs/toolkit";
 export const accountSlice = createSlice({
   name: "account",
   initialState: {
-    value: false,
+    uid: "",
   },
   reducers: {
-    toggleTrue: (state) => {
-      state.value = true;
-    },
-
-    toggleFalse: (state) => {
-      state.value = false;
+    editAccountState: (state, payload: any) => {
+      state.uid = payload.uid;
     },
   },
 });
 
-export const { toggleTrue, toggleFalse } = accountSlice.actions;
+export const { editAccountState } = accountSlice.actions;
 
 export const selectAccount = (state: any) => state.account.value;
 
