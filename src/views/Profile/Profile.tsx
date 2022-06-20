@@ -1,16 +1,18 @@
 import Navigation from "components/Navigation/Navigation";
 import { useEffect, useState } from "react";
-import { db } from "../../firebase/firebase-config";
+import { auth, db } from "../../firebase/firebase-config";
 import { collection, getDocs, where, query } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import "./Profile.scss";
 import PostList from "components/PostList/PostList";
+import EditProfile from "components/EditProfile/EditProfile";
 
 const Profile = () => {
   const [userData, setUserData] = useState<any>({});
   const [isLoading, setIsLoading] = useState(false);
   const [dateCreated, setDateCreated] = useState("");
   const [posts, setPosts] = useState<any[]>([]);
+  const [viewModal, setViewModal] = useState(false);
 
   const { id } = useParams();
 
@@ -25,10 +27,11 @@ const Profile = () => {
       await getDocs(q)
         .then((doc) => {
           setUserData(doc.docs[0].data());
-          const date = new Date(parseInt(userData.dateCreated));
-          return date.toLocaleDateString("en-GB", { timeZone: "CET" });
         })
-        .then((parsedDate) => {
+        .then(() => {
+          console.log(userData);
+          const date = new Date(parseInt(userData.dateCreated));
+          let parsedDate = date.toLocaleDateString("en-GB", { timeZone: "CET" });
           setDateCreated(parsedDate);
           setIsLoading(false);
         });
@@ -51,6 +54,11 @@ const Profile = () => {
     }
   };
 
+  const toggleEditModal = () => {
+    let newModalState = !viewModal;
+    setViewModal(newModalState);
+  };
+
   useEffect(() => {
     getUserInfo();
     getPosts();
@@ -58,6 +66,7 @@ const Profile = () => {
 
   return (
     <div className="profile-layout">
+      {!isLoading && userData && viewModal ? <EditProfile getPosts={getPosts} getUserInfo={getUserInfo} userData={userData} toggleEditModal={toggleEditModal} /> : <></>}
       <Navigation />
       {isLoading && userData ? (
         <h2>Loading...</h2>
@@ -65,6 +74,13 @@ const Profile = () => {
         <div className="profile-content">
           <div className="profile-data">
             <img src={userData.profileImage} alt="profile" />
+            {userData.uid === auth.currentUser?.uid ? (
+              <button className="edit-profile" onClick={(e) => toggleEditModal()}>
+                Edit profile
+              </button>
+            ) : (
+              <></>
+            )}
             <h3>{userData.username}</h3>
             <p>Joined {dateCreated}</p>
             {userData.following && userData.followers ? (

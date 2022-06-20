@@ -49,6 +49,8 @@
     }
 
     .delete-icon {
+      display: none;
+
       svg {
         fill: none;
         stroke: black;
@@ -67,4 +69,8 @@
       }
     }
   }
+}
+
+.post-container:hover .delete-icon {
+  display: block;
 }
