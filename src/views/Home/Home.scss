@@ -1,16 +1,16 @@
 .home-container {
   display: grid;
-  grid-template-columns: 30% auto;
+  grid-template-columns: 25% calc(75% / 2) auto;
   height: 100vh;
 
   .content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
 
     .post-list-home {
-      width: 80%;
+      width: 100%;
     }
   }
 }

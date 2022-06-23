@@ -1,3 +1,55 @@
 .nav-container {
-  background-color: lightblue;
+  background-color: white;
+  border-right: 2px solid var(--light-grey);
+  display: flex;
+  justify-content: center;
+
+  .item-list {
+    width: 50%;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
+      font-size: 20px;
+    }
+
+    .twitter-logo svg {
+      fill: var(--default-blue);
+    }
+
+    .nav-item {
+      transition: ease 0.1s;
+    }
+
+    .nav-item:hover {
+      background-color: var(--mid-grey);
+      box-shadow: 0 0 0 12px var(--mid-grey);
+      border-radius: 20px;
+    }
+
+    .button-item {
+      width: 100%;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
 }

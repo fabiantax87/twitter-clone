@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid black;
+  border: 2px solid var(--light-grey);
+  border-left: none;
   padding: 10px;
 
   .post {
@@ -17,7 +18,6 @@
       img {
         width: 45px;
         height: 45px;
-        border: 1px solid black;
         border-radius: 50%;
       }
 
@@ -62,8 +62,8 @@
         height: 25px;
       }
       svg:hover {
-        background-color: lightgrey;
-        box-shadow: 0 0 0 3px lightgrey;
+        background-color: var(--light-grey);
+        box-shadow: 0 0 0 3px var(--light-grey);
         border-radius: 5px;
         cursor: pointer;
       }

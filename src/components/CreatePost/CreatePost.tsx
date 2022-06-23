@@ -5,9 +5,11 @@ import "./CreatePost.scss";
 
 type createPostProps = {
   getPosts: any;
+  isLoading: any;
+  userData: any;
 };
 
-const CreatePost = ({ getPosts }: createPostProps) => {
+const CreatePost = ({ getPosts, isLoading, userData }: createPostProps) => {
   const [message, setMessage] = useState("");
 
   const postsCollection = collection(db, "posts");
@@ -32,13 +34,21 @@ const CreatePost = ({ getPosts }: createPostProps) => {
   };
 
   return (
-    <div className="create-post">
-      <form className="create-form" onSubmit={(e: any) => submitPost(e)}>
-        <input type="text" placeholder="What's on your mind?" value={message} onChange={(e) => setMessage(e.target.value)} />
-        <button className="btn-def" type="submit">
-          Tweet
-        </button>
-      </form>
+    <div className="create-post-container">
+      <div className="create-post">
+        <h3>Home</h3>
+        <div className="middle-section">
+          <img src={userData.profileImage} alt="user" />
+          <form className="create-form" onSubmit={(e: any) => submitPost(e)}>
+            <input type="text" placeholder="What's happening?" value={message} onChange={(e) => setMessage(e.target.value)} />
+          </form>
+        </div>
+        <div className="tweet-btn">
+          <button className="btn-def" type="submit" onClick={(e: any) => submitPost(e)}>
+            Tweet
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

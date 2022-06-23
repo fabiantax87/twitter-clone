@@ -29,7 +29,6 @@ const Profile = () => {
           setUserData(doc.docs[0].data());
         })
         .then(() => {
-          console.log(userData);
           const date = new Date(parseInt(userData.dateCreated));
           let parsedDate = date.toLocaleDateString("en-GB", { timeZone: "CET" });
           setDateCreated(parsedDate);
